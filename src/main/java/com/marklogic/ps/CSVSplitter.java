@@ -19,7 +19,7 @@ public class CSVSplitter
         Options options = new Options();
         options.addOption(new Option("i", "input_file_path", true, "path of CSV file to split"));
         options.addOption(new Option("o", "output_directory_path", true, "target directory for split documents"));
-        options.addOption(new Option("l", "lines", true, "number of lines in output file, not including header row"));
+        options.addOption(new Option("l", "lines", true, "number of lines in output files, not including header row"));
         options.addOption(new Option("n", "no_header", false, "CSV has no header row"));
         options.addOption(new Option("h", "help", false, "print this help message"));
 
@@ -34,7 +34,7 @@ public class CSVSplitter
 
         if (line.hasOption("h")) {
             HelpFormatter formatter = new HelpFormatter();
-            formatter.printHelp("xml-splitter", options);
+            formatter.printHelp("java -jar csv-splitter-<VERSION>-all.jar", options);
             return;
         }
 
