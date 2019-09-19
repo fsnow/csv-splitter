@@ -9,4 +9,4 @@ A command-line CSV splitter in Java.
      -n,--no_header                     CSV has no header row
      -o,--output_directory_path <arg>   target directory for split documents
 
-Currently the output files are named with a random GUID plus ".xml" and are written into the specified output directory.
+Currently the output files are named with a random GUID plus ".csv" and are written into the specified output directory.
