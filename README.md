@@ -9,4 +9,6 @@ A command-line CSV splitter in Java.
      -n,--no_header                     CSV has no header row
      -o,--output_directory_path <arg>   target directory for split documents
 
+The input CSV is split into CSVs with no more than the specified number of rows. Each CSV will include the header row if there is one. Use the -n or --no_header param if there is no header row.
+
 Currently the output files are named with a random GUID plus ".csv" and are written into the specified output directory.
