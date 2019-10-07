@@ -22,6 +22,7 @@ public class CSVSplitter
         options.addOption(new Option("l", "lines", true, "number of lines in output files, not including header row"));
         options.addOption(new Option("n", "no_header", false, "CSV has no header row"));
         options.addOption(new Option("h", "help", false, "print this help message"));
+        options.addOption(new Option("a", "avro_safe_header", false, "make header row safe for Avro"));
 
         CommandLine line = null;
         try {
@@ -43,6 +44,7 @@ public class CSVSplitter
         splitter.setInputFilePath(line.getOptionValue("i"));
         splitter.setOutputDirectoryPath(line.getOptionValue("o"));
         splitter.setHasHeaderRow(!line.hasOption("n"));
+        splitter.setAvroSafeHeader(line.hasOption("a"));
 
         if (line.hasOption("l")) {
             try {
@@ -62,6 +64,7 @@ public class CSVSplitter
     private boolean hasHeaderRow = true;
     private int lines = 1000;
     private String outputDirectoryPath;
+    private boolean avroSafeHeader = false;
 
     public void setInputFilePath(String path) {
         if (path == null) {
@@ -73,6 +76,10 @@ public class CSVSplitter
 
     public void setHasHeaderRow(boolean val) {
         this.hasHeaderRow = val;
+    }
+
+    public void setAvroSafeHeader(boolean val) {
+        this.avroSafeHeader = val;
     }
 
     public void setLines(int val) {
@@ -117,6 +124,14 @@ public class CSVSplitter
             // read the header row
             if (readerRowCount == 0) {
                 headerLine = nextLine;
+                if (avroSafeHeader) {
+                    for (int i = 0; i < headerLine.length; i++) {
+                        headerLine[i] =
+                                headerLine[i].replaceAll("[\\r\\n\\s]+", "_")
+                                        .replaceAll("^[0-9]+", "")
+                                        .replaceAll("[^a-zA-Z0-9_]", "");
+                    }
+                }
             }
 
             // open a new file
